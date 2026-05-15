@@ -1,0 +1,134 @@
+
+# Simple version
+class Player:
+    def __init__(self, nickname: str, max_hp: int, level: int):
+        self.nickname = nickname
+        self.max_hp = max_hp
+        self.level = level
+
+    def greet(self):
+        print("Hello, dear man")
+
+    def displayInfo(self):
+        print(f"Player\n    • nickname: {self.nickname};\n    • level: {self.level};\n    • max_hp: {self.max_hp}")
+
+
+# With private field, getters and setters (encapsulation example)
+class Player:
+    def __init__(self, nickname: str, max_hp: int, level: int):
+        self._nickname = nickname
+        self._max_hp = max_hp
+        self._level = level
+
+    def greet(self):
+        print("Hello, dear man")
+
+    def displayInfo(self):
+        print(f"Player\n    • nickname: {self._nickname};\n    • level: {self._level};\n    • max_hp: {self._max_hp}")
+
+    #getters and setters
+    def get_nickname(self):
+        return self._nickname
+
+    def set_nickname(self, nickname: str):
+        self._nickname = nickname
+
+    def get_level(self):
+        return self._level
+
+    def set_level(self, level: int):
+        self._level = level
+
+    def get_max_hp(self):
+        return self._max_hp
+
+    def set_max_hp(self, max_hp: int):
+        self._max_hp = max_hp
+
+
+#Final, extended version
+
+class Player:
+    def __init__(self, nickname: str, max_hp: int, level: int):
+        self._nickname = nickname
+        self._max_hp = max_hp if max_hp > 0 else 100
+        self._level = level if level > 0 else 1
+        self._hp = self._max_hp
+
+    def greet(self):
+        print("Hello, dear man")
+
+    def displayInfo(self):
+        print(f"Player\n    • nickname: {self._nickname};\n    • level: {self._level};\n    "
+              f"• hp: {int((self._hp / self._max_hp) * 100)}%;\n    • max hp: {self._max_hp}\n")
+
+    def level_up(self):
+        self._level += 1
+        self._max_hp += 75
+
+    def take_damage(self, amount_of_damage: int):
+        if amount_of_damage > 0:
+            self._hp = self._hp - amount_of_damage
+
+        if self._hp <= 0:
+            print("You are lose. Game Over!")
+
+    def heal(self, heal_points):
+        if heal_points <= 0:
+            return
+
+        if (self._hp + heal_points) > self._max_hp:
+            self._hp = self._max_hp
+        else:
+            self._hp += heal_points
+
+
+    #getters and setters
+    def get_nickname(self):
+        return self._nickname
+
+    def set_nickname(self, nickname: str):
+        self._nickname = nickname
+
+    def get_level(self):
+        return self._level
+
+
+    def get_max_hp(self):
+        return self._max_hp
+
+    def get_hp(self):
+        return self._hp
+
+
+    #Private methods
+    def _set_hp(self, hp):
+        self._hp = hp
+
+    def _set_max_hp(self, max_hp: int):
+        self._max_hp =  max_hp if max_hp > 0 else 100
+
+    def _set_level(self, level: int):
+        self._level = level if level > 0 else 1
+
+if __name__ == "__main__":
+    player = Player("lolman", 300, 1)
+    player.displayInfo()
+
+    player.greet()
+
+    player.take_damage(30)
+    print("Take damage: 30")
+    player.displayInfo()
+
+    player.heal(10)
+    print("Heal 10 hp")
+    player.displayInfo()
+
+    player.level_up()
+    print("Level up")
+    player.displayInfo()
+
+    player.take_damage(13)
+    print("Take damage: 13")
+    player.displayInfo()
